@@ -1,9 +1,10 @@
 package com.krafttech.steps_defs;
 
+import com.krafttech.utulities.BrowserUtils;
 import com.krafttech.utulities.Driver;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
-import org.junit.After;
-import org.junit.Before;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.TakesScreenshot;
@@ -14,8 +15,8 @@ public class Hooks {
 
     @Before
     public void setUp(){
+        Driver.get().manage().window().setPosition(new Point(-1000, 0));
         Driver.get().manage().window().maximize();
-        Driver.get().manage().window().setPosition(new Point(-1000,0));
         Driver.get().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
@@ -25,6 +26,7 @@ public class Hooks {
             byte[] screenshot = ((TakesScreenshot) Driver.get()).getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshot,"image/png","screenshot");
         }
+        BrowserUtils.waitFor(1);
         Driver.closeDriver();
     }
 }
